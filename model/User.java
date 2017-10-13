@@ -1,8 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 public class User {
 
@@ -14,7 +13,7 @@ public class User {
 	private boolean isAdmin;
 	private boolean isBanned;
 	private LocalDateTime registered;
-	private List<User> friends = new ArrayList<User>(); //friends list?
+	private HashSet<User> friends = new HashSet<User>(); //friends list?
 
 	public User(long id, String username, String password, String email, int age, LocalDateTime registered, boolean isBanned, boolean isAdmin) {
 		this(username, password, email);
@@ -53,5 +52,34 @@ public class User {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+	
 	
 }

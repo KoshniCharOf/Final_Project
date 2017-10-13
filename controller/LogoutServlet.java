@@ -8,12 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/LogoutServlet")
+@WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 	//private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//check if user is logged
+		if(request.getSession().getAttribute("logged")!=null) {
+			//update session
+			request.getSession().invalidate();
+			//redirect to main page OR PREVIOUS??
+			response.sendRedirect("main");
+		}
 		//update session
 		//redirect to main page OR PREVIOUS??
 	}

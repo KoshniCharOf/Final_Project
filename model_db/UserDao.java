@@ -33,7 +33,7 @@ public final class UserDao {
 	
 	public boolean existsUser(String username, String password) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
-		PreparedStatement ps = con.prepareStatement("SELECT count(*) as count FROM users WHERE username = ? AND password = ?");
+		PreparedStatement ps = con.prepareStatement("SELECT count(*) as count FROM users u WHERE u.username = ? AND u.password = ?");
 		ps.setString(1, username);
 		ps.setString(2, password);
 		ResultSet rs = ps.executeQuery();
@@ -57,5 +57,15 @@ public final class UserDao {
 				rs.getBoolean("isBanned"),
 				rs.getBoolean("isAdmin")
 				);
+	}
+	
+	public boolean isAdmin(String username, String password) throws SQLException{
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("select u.isAdmin  from users u where u.name = ?");
+		ps.setString(1, username);
+		ps.setString(2, password);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		return rs.getInt("u.isAdmin") == 1;
 	}
 }

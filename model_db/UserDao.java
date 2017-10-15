@@ -68,4 +68,14 @@ public final class UserDao {
 		rs.next();
 		return rs.getInt("u.isAdmin") == 1;
 	}
+
+	public boolean checkEmail(String email) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean checkUsername(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

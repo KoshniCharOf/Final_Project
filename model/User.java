@@ -13,7 +13,7 @@ public class User {
 	private boolean isAdmin;
 	private boolean isBanned;
 	private LocalDateTime registered;
-	private HashSet<User> friends = new HashSet<User>(); //friends list?
+	private String avatar_url;
 
 	public User(long id, String username, String password, String email, int age, LocalDateTime registered, boolean isBanned, boolean isAdmin) {
 		this(username, password, email);

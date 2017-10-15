@@ -8,16 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/postArticle")
-public class PostArticleServlet extends HttpServlet {
-	
+@WebServlet("/VoteForComment")
+public class VoteServlet extends HttpServlet {
+	//private static final long serialVersionUID = 1L;
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//check if is Admin
-		
-		// create article 
-		// userDAO publishArticle(article)
-		
+		//check if user is logged in
+		//check if user exists not in the comment votes
+		//update comment like/dislikes and redirect to the URL where the article is
 	}
 
 }

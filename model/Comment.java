@@ -4,19 +4,20 @@ import java.time.LocalDateTime;
 
 public class Comment {
 	
-	private User author;
-	private Article article;
+	private long id;
+	private long user_id;
+	private long article_id;
 	private String content;
-	private Comment answer; // shall we leave it like this
-	private int likes = 0;
-	private int dislikes = 0;
-	private LocalDateTime timeCreated = LocalDateTime.now();
+	private int likes;
+	private int dislikes;
+	private LocalDateTime timeCreated;
 	private boolean isAproved = true;
 	
-	public Comment(User author, Article article, String content) {
-		this.author = author;
-		this.article = article;
+	public Comment(long user_id, long article_id, String content) {
+		this.user_id = user_id;
+		this.article_id = article_id;
 		this.content = content;
+		this.timeCreated = LocalDateTime.now();
 	}
 	
 	

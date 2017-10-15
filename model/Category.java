@@ -1,20 +1,17 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Category extends Subcategory {
+public class Category  {
 	
+	private long id;
 	private String name;
-	private List<Subcategory> subcategories;
-	
-	
+
 	public Category(String name) {
-		super(name);
-		this.subcategories = new ArrayList<Subcategory>();
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	} 
-	
-	
 	
 	
 	//TODO methods

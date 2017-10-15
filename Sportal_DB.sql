@@ -44,32 +44,6 @@ LOCK TABLES `article_media` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `article_tags`
---
-
-DROP TABLE IF EXISTS `article_tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `article_tags` (
-  `article_id` int(11) NOT NULL,
-  `tag_id` int(11) NOT NULL,
-  PRIMARY KEY (`article_id`,`tag_id`),
-  KEY `tag_idx` (`tag_id`),
-  CONSTRAINT `articleT` FOREIGN KEY (`article_id`) REFERENCES `articles` (`article_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `tag` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`tag_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `article_tags`
---
-
-LOCK TABLES `article_tags` WRITE;
-/*!40000 ALTER TABLE `article_tags` DISABLE KEYS */;
-/*!40000 ALTER TABLE `article_tags` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `articles`
 --
 
@@ -78,18 +52,18 @@ DROP TABLE IF EXISTS `articles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `articles` (
   `article_id` int(11) NOT NULL AUTO_INCREMENT,
-  `sub_category` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `title` varchar(200) NOT NULL,
   `content` longtext NOT NULL,
-  `date` date NOT NULL,
+  `datetime` datetime NOT NULL,
   `impressions` int(11) DEFAULT NULL,
   `isLeading` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`article_id`),
   UNIQUE KEY `article_id_UNIQUE` (`article_id`),
   KEY `title` (`title`) USING BTREE,
-  KEY `categori_id_idx` (`sub_category`),
   KEY `idx_article_title` (`title`),
-  CONSTRAINT `sub_category` FOREIGN KEY (`sub_category`) REFERENCES `sub_categories` (`sub_category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_category_id_idx` (`category_id`),
+  CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='longtext check\ncategories table\nnot sure about comments\n/where to add sub_category it has to be from category but not sure\nstatus_id breaking, top, shock:)\nobject_id Levski, CSKA...\n...add subscribers may be\nremoved tag, picture and video because  both refer to article_id';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -134,21 +108,18 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
   `comment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `author` int(11) NOT NULL,
-  `article` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `article_id` int(11) NOT NULL,
   `content` varchar(200) NOT NULL,
-  `answer` int(11) DEFAULT NULL,
   `likes` int(11) DEFAULT '0',
   `dislikes` int(11) DEFAULT '0',
   `date_time` datetime NOT NULL,
   `isApproved` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`comment_id`),
-  KEY `user_id_idx` (`author`),
-  KEY `answer_idx` (`answer`),
-  KEY `article_id_idx` (`article`),
-  CONSTRAINT `answer` FOREIGN KEY (`answer`) REFERENCES `comments` (`comment_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `article_id` FOREIGN KEY (`article`) REFERENCES `articles` (`article_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `user_id` FOREIGN KEY (`author`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `user_id_idx` (`user_id`),
+  KEY `article_id_idx` (`article_id`),
+  CONSTRAINT `fk_article_id` FOREIGN KEY (`article_id`) REFERENCES `articles` (`article_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -159,32 +130,6 @@ CREATE TABLE `comments` (
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `friends`
---
-
-DROP TABLE IF EXISTS `friends`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `friends` (
-  `user_id` int(11) NOT NULL,
-  `friend_id` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`,`friend_id`),
-  KEY `friend_idx` (`friend_id`),
-  CONSTRAINT `friend` FOREIGN KEY (`friend_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `friends`
---
-
-LOCK TABLES `friends` WRITE;
-/*!40000 ALTER TABLE `friends` DISABLE KEYS */;
-/*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -213,56 +158,6 @@ LOCK TABLES `media` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `sub_categories`
---
-
-DROP TABLE IF EXISTS `sub_categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sub_categories` (
-  `sub_category_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `category` int(11) NOT NULL,
-  PRIMARY KEY (`sub_category_id`),
-  KEY `category_idx` (`category`),
-  CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sub_categories`
---
-
-LOCK TABLES `sub_categories` WRITE;
-/*!40000 ALTER TABLE `sub_categories` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sub_categories` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tags`
---
-
-DROP TABLE IF EXISTS `tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tags` (
-  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  PRIMARY KEY (`tag_id`),
-  UNIQUE KEY `content_UNIQUE` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tags`
---
-
-LOCK TABLES `tags` WRITE;
-/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `users`
 --
 
@@ -271,19 +166,19 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `e_mail` varchar(45) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `password` binary(64) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `username` varchar(45) NOT NULL,
   `age` int(11) DEFAULT NULL,
   `avatar_url` varchar(2083) DEFAULT NULL,
   `isAdmin` tinyint(4) DEFAULT NULL,
   `isBanned` tinyint(4) DEFAULT NULL,
   `date_time_registered` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `e_mail_UNIQUE` (`e_mail`),
+  UNIQUE KEY `e_mail_UNIQUE` (`email`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  KEY `idx_users_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='\nadd role : admin, regular, banned ?';
+  KEY `idx_users_name` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='\nadd role : admin, regular, banned ?';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,6 +187,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'k@a.n','kkk\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','koko',111,'avatar_url',1,0,NULL),(2,'bz@abv.bg','0000000\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','batzlat',31,'avatar_url',0,0,NULL),(3,'kkkdak@abv.bg','dsasdad','dsadasd',NULL,NULL,NULL,NULL,NULL),(4,'kkk2@abg.bg','122211','koko2',NULL,NULL,NULL,NULL,NULL),(5,'kksk2@abg.bg','dasdada','koko2s',NULL,NULL,NULL,NULL,NULL),(6,'saSSs@abv.bg','AsASadssd','kjkjk',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -304,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-10 17:06:36
+-- Dump completed on 2017-10-15 22:07:36

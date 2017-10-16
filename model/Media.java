@@ -2,14 +2,47 @@ package model;
 
 public class Media {
 	
-	private long id;
-	private String name;
-	private String url;
+	private long media_id;
+	private String name;//45
+	private String url;//1024
 	
+	public Media(long media_id, String name, String url) {
+		this(name,url);
+		this.media_id = media_id;
+	}
+	
+	
+
 	public Media(String name, String url) {
 		this.name = name;
 		this.url = url;
 	}
+
+
+
+	public void setId(long media_id) {
+		this.media_id = media_id;
+	}
+
+
+
+	public long getId() {
+		return media_id;
+	}
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+	public String getUrl() {
+		return url;
+	}
+
+
 
 	@Override
 	public int hashCode() {

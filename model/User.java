@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class User {
 
+	public static final String AVATAR_URL = "D:\\uploads\\";
 	private long id;
 	private String username;
 	private String password;

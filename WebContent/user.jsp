@@ -13,6 +13,16 @@
 		<c:set var = "user" value="${sessionScope.user }"></c:set>
 		<c:out value="${user.username }"></c:out>
 		<c:out value="${user.email }"></c:out>
+		<c:if test="${user.avatar_url!=null }">
+			<c:out value="${user.avatar_url }"></c:out>
+			<img id="avatar" src="avatar">
+		</c:if>
+		<form action="avatarUpload" method="post" enctype="multipart/form-data">
+			Avatar<input type="file" name="avatar"><br>
+			<input type="submit" value="upload"><br>
+		</form>
+		
+		
 		<c:if test="${user.admin }">
 			<jsp:include page="admin.jsp"></jsp:include>
 		</c:if>

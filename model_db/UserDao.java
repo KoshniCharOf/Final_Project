@@ -73,6 +73,16 @@ public final class UserDao {
 				);
 	}
 	
+	public boolean updateAvatar(String avatar_url, String username) throws SQLException{
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("UPDATE users u SET u.avatar_url = ? WHERE u.username = ?", Statement.RETURN_GENERATED_KEYS);
+		ps.setString(1, avatar_url);
+		ps.setString(2, username);
+		ps.executeUpdate();
+		ResultSet rs = ps.getGeneratedKeys();
+		return rs.next();
+	}
+	
 	public boolean isAdmin(String username, String password) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("select u.isAdmin  from users u where u.name = ?");

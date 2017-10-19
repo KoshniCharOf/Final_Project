@@ -54,7 +54,7 @@ public final class UserDao {
 	public User getUser(String username) throws SQLException{
 		
 		Connection con = DBManager.getInstance().getConnection();
-		PreparedStatement ps = con.prepareStatement("SELECT user_id, username, password, email, age, date_time_registered, isBanned, isAdmin FROM users WHERE username = ?");
+		PreparedStatement ps = con.prepareStatement("SELECT user_id, username, password, email, avatar_url, age, date_time_registered, isBanned, isAdmin FROM users WHERE username = ?");
 		ps.setString(1, username);
 		
 		ResultSet rs = ps.executeQuery();
@@ -66,6 +66,7 @@ public final class UserDao {
 				username, 
 				rs.getString("password"), 
 				rs.getString("email"),
+				rs.getString("avatar_url"),
 				18,//rs.getInt("age")
 				rs.getTimestamp("date_time_registered").toLocalDateTime(),
 				rs.getBoolean("isBanned"),
@@ -80,6 +81,7 @@ public final class UserDao {
 		ps.setString(2, username);
 		ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
+		
 		return rs.next();
 	}
 	

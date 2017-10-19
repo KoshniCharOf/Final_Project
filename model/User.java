@@ -13,11 +13,12 @@ public class User {
 	private boolean isAdmin;
 	private boolean isBanned;
 	private LocalDateTime registered;
-	private String avatar_url;
+	private String avatarUrl;
 
-	public User(long id, String username, String password, String email, int age, LocalDateTime registered, boolean isBanned, boolean isAdmin) {
+	public User(long id, String username, String password, String email, String avatarUrl, int age, LocalDateTime registered, boolean isBanned, boolean isAdmin) {
 		this(username, password, email);
 		this.id = id;
+		this.avatarUrl = avatarUrl;
 		this.age = age;
 		this.registered = registered;
 		this.isAdmin = isAdmin;
@@ -69,8 +70,14 @@ public class User {
 		return registered;
 	}
 
-	public String getAvatar_url() {
-		return avatar_url;
+	
+
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
 	}
 
 	@Override

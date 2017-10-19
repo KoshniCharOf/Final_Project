@@ -19,7 +19,6 @@ import javax.servlet.http.Part;
 
 import model.User;
 import model_db.UserDao;
-import src.controller.RegisterServlet;
 
 /**
  * Servlet implementation class AvatarServlet
@@ -51,18 +50,21 @@ public class AvatarServlet extends HttpServlet {
 		// UPDATE IN DB
 		try {
 			UserDao.getInstance().updateAvatar(avatar, user.getUsername());
+			user.setAvatarUrl(avatar);//only once
 		} catch (SQLException e) {
 			System.out.println("opa");
 		}
+		req.getRequestDispatcher("user.jsp").forward(req, resp);
 	}
    
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User u = (User)request.getSession().getAttribute("user");
-		//String avatar = u.getAvatarUrl();
+		User user = (User)request.getSession().getAttribute("user");
+		String avatar = user.getAvatarUrl();
+		
 		if(avatar == null){
 			avatar = "default.jpg";
 		}
-		File myFile = new File(RegisterServlet.AVATAR_URL+avatar);
+		File myFile = new File(avatar);
 		
 		try (OutputStream out = response.getOutputStream()) {
 		    Path path = myFile.toPath();

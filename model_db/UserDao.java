@@ -47,12 +47,14 @@ System.out.println("inserted"+u.getId());
 	}
 	
 	public User getUser(String username) throws SQLException{
+		
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("SELECT user_id, name, password, e_mail, age, date_time_registered, isBanned, isAdmin FROM users WHERE username = ?");
 		ps.setString(1, username);
 		ResultSet rs = ps.executeQuery();
+		System.out.println("get User"+rs.getString(4));
 		rs.next();
-System.out.println("get User");
+		
 		return new User(
 				rs.getLong("user_id"), 
 				username, 

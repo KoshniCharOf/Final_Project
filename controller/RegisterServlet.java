@@ -25,10 +25,10 @@ public class RegisterServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		//validations
-		if(!isValidEmailAddress(email)) {
-			response.getWriter().println("Not valid email");
-			return;
-		}
+//		if(!isValidEmailAddress(email)) {
+//			response.getWriter().println("Not valid email");
+//			return;
+//		}
 		
 		//	TODO STRONGER PASS
 		try {

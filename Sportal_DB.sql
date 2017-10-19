@@ -177,8 +177,9 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `e_mail_UNIQUE` (`email`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `idx_users_name` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='\nadd role : admin, regular, banned ?';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='\nadd role : admin, regular, banned ?';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +188,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'k@a.n','kkk\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','koko',111,'avatar_url',1,0,NULL),(2,'bz@abv.bg','0000000\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','batzlat',31,'avatar_url',0,0,NULL),(3,'kkkdak@abv.bg','dsasdad','dsadasd',NULL,NULL,NULL,NULL,NULL),(4,'kkk2@abg.bg','122211','koko2',NULL,NULL,NULL,NULL,NULL),(5,'kksk2@abg.bg','dasdada','koko2s',NULL,NULL,NULL,NULL,NULL),(6,'saSSs@abv.bg','AsASadssd','kjkjk',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `users` VALUES (1,'k@a.n','kkk\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','koko',111,'avatar_url',1,0,NULL),(2,'bz@abv.bg','0000000\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','batzlat',31,'avatar_url',0,0,NULL),(3,'kkkdak@abv.bg','dsasdad','dsadasd',NULL,NULL,NULL,NULL,NULL),(4,'kkk2@abg.bg','122211','koko2',NULL,NULL,NULL,NULL,NULL),(5,'kksk2@abg.bg','dasdada','koko2s',NULL,NULL,NULL,NULL,NULL),(6,'saSSs@abv.bg','AsASadssd','kjkjk',NULL,NULL,NULL,NULL,NULL),(9,'kkk@abg.bgsa','ssgOVrjt8LGsh5PS/qorlWooxKsrNPqaYCGbEnJsSC2u3wIaxiluAZbBrVI/g1dLNF3qV5NDgA5VTJdkuyKNbg==','dddd',NULL,NULL,NULL,NULL,NULL),(14,'k@k.k','xgAdWyrD3zFCBKj516AOFQPJq6D9RThkXeS/TMfiVVz+n/nQI2vzJ+0+kHhJqY300zDEvqVRAX1GW0wdm4C8sA==','koshnicharov',18,NULL,0,0,'2017-10-19 23:37:37');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -200,4 +201,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-15 22:07:36
+-- Dump completed on 2017-10-20  2:13:22

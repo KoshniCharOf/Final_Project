@@ -14,12 +14,13 @@ public class LogoutServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//check if user is logged
-		if(request.getSession().getAttribute("logged")!=null) {
+		if(request.getSession().getAttribute("user")!=null) {
 			//update session
 			request.getSession().invalidate();
 			//redirect to main page OR PREVIOUS??
-			response.sendRedirect("main");
+			
 		}
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 		//update session
 		//redirect to main page OR PREVIOUS??
 	}

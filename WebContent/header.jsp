@@ -23,7 +23,7 @@
 			</form>
 		</c:if>
 		<c:if test="${ sessionScope.user!=null }">
-			<form  action="/LogoutServlet">
+			<form  action="/Logout">
 				<input type="submit" value="log out">
 			</form>
 		</c:if>

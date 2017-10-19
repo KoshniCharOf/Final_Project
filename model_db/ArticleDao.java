@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import model.Article;
@@ -26,7 +27,7 @@ public final class ArticleDao {
 		return instance;
 	}
 
-	public synchronized void addArticle(Article article) throws SQLException{
+	public void addArticle(Article article) throws SQLException{
 		
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("INSERT INTO articles (category_id, title, content, datetime, impressions, isLeading) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -43,7 +44,7 @@ public final class ArticleDao {
 		articles.put(article_id, article);
 	}
 	
-	public synchronized boolean removeArticle(long article_id) throws SQLException{
+	public  boolean removeArticle(long article_id) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("DELETE FROM articles a WHERE a.article_id = ?", Statement.RETURN_GENERATED_KEYS);
 		ps.setLong(1, article_id);
@@ -54,14 +55,14 @@ public final class ArticleDao {
 	}
 	
 	
-	public synchronized Article getArticleById(long article_id) throws SQLException{
+	public Article getArticleById(long article_id) throws SQLException{
 		
 		String title = articles.get(article_id).getTitle();
 		String textContent = articles.get(article_id).getTextContent();
 		long category_id = articles.get(article_id).getCategory_id();
 		boolean isLeading = articles.get(article_id).isLeading();
-		
-		return new Article(article_id,title, textContent, category_id, isLeading);
+		Set mediaFiles = articles.get(article_id).getMediaFiles();
+		return new Article(article_id, title, textContent, category_id, isLeading, mediaFiles);
 	}
 	
 }

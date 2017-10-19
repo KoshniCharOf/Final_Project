@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import model.User;
+import util.Encrypter;
 
 public final class UserDao {
 	private static UserDao instance;
@@ -23,22 +24,26 @@ public final class UserDao {
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, u.getUsername());
-		ps.setString(2, u.getPassword());
+		ps.setString(2, Encrypter.encrypt(u.getPassword()));//put good salt
 		ps.setString(3, u.getEmail());
 		ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
 		rs.next();
+	
 		u.setId(rs.getLong(1));
+System.out.println("inserted"+u.getId());
 	}
 	
 	public boolean existsUser(String username, String password) throws SQLException{
+
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("SELECT count(*) as count FROM users u WHERE u.username = ? AND u.password = ?");
 		ps.setString(1, username);
-		ps.setString(2, password);
+		ps.setString(2, Encrypter.encrypt(password));
 		ResultSet rs = ps.executeQuery();
 		rs.next();
-		return rs.getInt("count") > 0;
+	System.out.println(rs.getInt("count")>0);
+		return rs.getInt("count")>0;
 	}
 	
 	public User getUser(String username) throws SQLException{
@@ -47,6 +52,7 @@ public final class UserDao {
 		ps.setString(1, username);
 		ResultSet rs = ps.executeQuery();
 		rs.next();
+System.out.println("get User");
 		return new User(
 				rs.getLong("user_id"), 
 				username, 

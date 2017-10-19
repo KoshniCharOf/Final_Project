@@ -24,10 +24,12 @@ public class LoginServlet extends HttpServlet {
 		//check if user exists in db
 		try {
 			if(UserDao.getInstance().existsUser(username, password)) {
-				User user = UserDao.getInstance().getUser(username);
+System.out.println("exists");	
+			User user = UserDao.getInstance().getUser(username);
 				//update session
+				
 				request.getSession().setAttribute("user", user);
-				request.getRequestDispatcher("/HomeServlet").forward(request, response);
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}else {
 				//forgot pass?
 				request.setAttribute("error", "user does not exist");
@@ -35,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 			}
 		} catch (SQLException e) {
 			request.setAttribute("error", "database problem : " + e.getMessage());
-			request.getRequestDispatcher("/HomeServlet").forward(request, response);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 	
 	}

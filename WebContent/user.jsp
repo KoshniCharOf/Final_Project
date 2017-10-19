@@ -13,7 +13,7 @@
 		<c:set var = "user" value="${sessionScope.user }"></c:set>
 		<c:out value="${user.username }"></c:out>
 		<c:out value="${user.email }"></c:out>
-		<c:if test="${user.isAdmin }">
+		<c:if test="${user.admin }">
 			<jsp:include page="admin.jsp"></jsp:include>
 		</c:if>
 	</body>

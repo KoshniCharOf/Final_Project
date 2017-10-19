@@ -9,7 +9,7 @@
 </head>
 <body>
 
-	<c:out value="${ user.isAdmin }"></c:out>
+	<c:out value="${ user.admin }"></c:out>
 	<p> admin here</p>
 </body>
 </html>

@@ -12,18 +12,18 @@
 			<input type="submit" value="home">
 		</form>
 		<c:if test="${ sessionScope.user!=null }">
-			<form  action="/User">
+			<form  action="User">
 				<input type="submit" value="User">
 			</form>
 		</c:if>
 		<c:if test= "${ sessionScope.user==null }">
 			<form  action="login.jsp">
 				<input type="submit" value="log in">
-				Welcome, guest!
 			</form>
 		</c:if>
+		Welcome, <c:out value="${sessionScope.user.username }">Guest</c:out>
 		<c:if test="${ sessionScope.user!=null }">
-			<form  action="/Logout">
+			<form  action="Logout" method="post">
 				<input type="submit" value="log out">
 			</form>
 		</c:if>

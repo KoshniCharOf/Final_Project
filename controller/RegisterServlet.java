@@ -24,7 +24,6 @@ public class RegisterServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		
 		//validations
 		if(!isValidEmailAddress(email)) {
 			response.getWriter().println("Not valid email");
@@ -33,36 +32,31 @@ public class RegisterServlet extends HttpServlet {
 		
 		//	TODO STRONGER PASS
 		try {
-			if(UserDao.getInstance().existsUser(username, password)) {
-				response.getWriter().println("redirecting to login page");
-				response.sendRedirect("login");
+			if(!UserDao.getInstance().existsUser(username, password)) {
+			
+				User user = new User(username, password, email);
+				//insert user in db
+				UserDao.getInstance().insertUser(user);
+				//update session
+				request.getSession().setAttribute("user", user);
+				//forward to main html
+				response.getWriter().println("redirecting to Home page");
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}
 		} catch (SQLException e1) {
-			response.sendRedirect("error page");
+			System.out.println("opa"+e1.getMessage());
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 		
-		User user = new User(username, password, email);
 		
-		try {
-			//check if username and e-mail exists
-			if(UserDao.getInstance().checkEmail(email)) {
-				response.getWriter().append("email already used");
-				return;
-			}
-			if(UserDao.getInstance().checkUsername(username)) {
-				response.getWriter().append("username already used");
-				return;
-			}
-			//TODO HASH PASSWORD
-			//insert user in db
-			UserDao.getInstance().insertUser(user);
-			//update session
-			request.getSession().setAttribute("logged", user);
-			//redirect to main html
-			response.sendRedirect("http://localhost:8080/FinalProject/");
-			
-		} catch (SQLException e) {
-			response.sendRedirect("error page"+e.getMessage());
+		//check if username and e-mail exists
+		if(UserDao.getInstance().checkEmail(email)) {
+			response.getWriter().append("email already used");
+			return;
+		}
+		if(UserDao.getInstance().checkUsername(username)) {
+			response.getWriter().append("username already used");
+			return;
 		}
 		
 	}
@@ -73,6 +67,6 @@ public class RegisterServlet extends HttpServlet {
         java.util.regex.Matcher m = p.matcher(email);
         email.matches(ePattern);
         return m.matches();
- }
+	}
 
 }

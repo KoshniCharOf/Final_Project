@@ -13,37 +13,30 @@ import model.User;
 import model_db.UserDao;
 
 
-@WebServlet("/login")
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
-	//private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//check for login credentials
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");//TODO  hash password
 		//check if user exists in db
-		if(!request.isRequestedSessionIdValid()) {
-			try {
-				if(UserDao.getInstance().existsUser(username, password)) {
-					User user = UserDao.getInstance().getUser(username);
-					//update session
-					request.getSession().setAttribute("logged", user);
-					//request.getSession().getAttribute("logged"); get user back
-					//redirect to main page OR PREVIOUS??
-					//TODO redirect to previous: -> request.getSession().setAttribute("last article", user);
-					response.sendRedirect("home");
-					
-				}else {
-					//redirect to PREVIOUS??
-					response.getWriter().println("invalid username or password");
-					response.sendRedirect("login");
-				}
-			} catch (SQLException e) {
-				response.sendRedirect("Error");
+		try {
+			if(UserDao.getInstance().existsUser(username, password)) {
+				User user = UserDao.getInstance().getUser(username);
+				//update session
+				request.getSession().setAttribute("user", user);
+				request.getRequestDispatcher("/HomeServlet").forward(request, response);
+			}else {
+				//forgot pass?
+				request.setAttribute("error", "user does not exist");
+				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
+		} catch (SQLException e) {
+			request.setAttribute("error", "database problem : " + e.getMessage());
+			request.getRequestDispatcher("/HomeServlet").forward(request, response);
 		}
-		//update session
-		//redirect to main page OR PREVIOUS??
+	
 	}
-
 }

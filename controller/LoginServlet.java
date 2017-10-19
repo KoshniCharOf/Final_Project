@@ -13,7 +13,7 @@ import model.User;
 import model_db.UserDao;
 
 
-@WebServlet("/LoginServlet")
+@WebServlet("/Login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -24,11 +24,11 @@ public class LoginServlet extends HttpServlet {
 		//check if user exists in db
 		try {
 			if(UserDao.getInstance().existsUser(username, password)) {
-System.out.println("exists in servlet");	
+	
 			User user = UserDao.getInstance().getUser(username);
 				//update session
 				request.getSession().setAttribute("user", user);
-				System.out.println(user.getUsername());
+
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}else {
 				//forgot pass?

@@ -52,6 +52,26 @@ public class User {
 		this.id = id;
 	}
 
+	public int getAge() {
+		return age;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public boolean isBanned() {
+		return isBanned;
+	}
+
+	public LocalDateTime getRegistered() {
+		return registered;
+	}
+
+	public String getAvatar_url() {
+		return avatar_url;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

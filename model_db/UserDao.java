@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import model.User;
 import util.Encrypter;
@@ -22,16 +23,20 @@ public final class UserDao {
 	
 	public void insertUser(User u) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
-		PreparedStatement ps = con.prepareStatement("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement ps = con.prepareStatement("INSERT INTO users (username, password, email, isAdmin, isBanned, date_time_registered) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, u.getUsername());
 		ps.setString(2, Encrypter.encrypt(u.getPassword()));//put good salt
 		ps.setString(3, u.getEmail());
+	
+		ps.setBoolean(4, u.isAdmin());
+		ps.setBoolean(5, u.isBanned());
+		ps.setTimestamp(6, Timestamp.valueOf(u.getRegistered()));
 		ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
 		rs.next();
 	
 		u.setId(rs.getLong(1));
-System.out.println("inserted"+u.getId());
+
 	}
 	
 	public boolean existsUser(String username, String password) throws SQLException{
@@ -42,25 +47,26 @@ System.out.println("inserted"+u.getId());
 		ps.setString(2, Encrypter.encrypt(password));
 		ResultSet rs = ps.executeQuery();
 		rs.next();
-	System.out.println(rs.getInt("count")>0);
+	
 		return rs.getInt("count")>0;
 	}
 	
 	public User getUser(String username) throws SQLException{
 		
 		Connection con = DBManager.getInstance().getConnection();
-		PreparedStatement ps = con.prepareStatement("SELECT user_id, name, password, e_mail, age, date_time_registered, isBanned, isAdmin FROM users WHERE username = ?");
+		PreparedStatement ps = con.prepareStatement("SELECT user_id, username, password, email, age, date_time_registered, isBanned, isAdmin FROM users WHERE username = ?");
 		ps.setString(1, username);
+		
 		ResultSet rs = ps.executeQuery();
-		System.out.println("get User"+rs.getString(4));
+		
 		rs.next();
 		
 		return new User(
 				rs.getLong("user_id"), 
 				username, 
 				rs.getString("password"), 
-				rs.getString("e_mail"),
-				rs.getInt("age"),
+				rs.getString("email"),
+				18,//rs.getInt("age")
 				rs.getTimestamp("date_time_registered").toLocalDateTime(),
 				rs.getBoolean("isBanned"),
 				rs.getBoolean("isAdmin")

@@ -2,6 +2,7 @@ package model;
 
 public class Media {
 	
+	public static final String IMAGE_URL = "D:\\uploads\\images\\";
 	private long media_id;
 	private String name;//45
 	private String url;//1024

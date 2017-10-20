@@ -31,11 +31,12 @@ public final class ArticleDao {
 		
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("INSERT INTO articles (category_id, title, content, datetime, impressions, isLeading) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-		ps.setString(1, article.getTitle());
-		ps.setString(2, article.getTextContent());
-		ps.setTimestamp(3, Timestamp.valueOf(article.getCreated()));//https://www.youtube.com/watch?v=CEjU9KVABao
-		ps.setLong(4, article.getImpressions());
-		ps.setBoolean(5, article.isLeading());
+		ps.setLong(1, article.getCategory_id());
+		ps.setString(2, article.getTitle());
+		ps.setString(3, article.getTextContent());
+		ps.setTimestamp(4, Timestamp.valueOf(article.getCreated()));//https://www.youtube.com/watch?v=CEjU9KVABao
+		ps.setLong(5, article.getImpressions());
+		ps.setBoolean(6, article.isLeading());
 		ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
 		rs.next();

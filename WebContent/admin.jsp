@@ -1,15 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>admin menu</title>
 </head>
 <body>
-
-	<c:out value="${ user.admin }"></c:out>
-	<p> admin here</p>
+(title, textContent, category_id, isLeading, mediaFiles)
+	<form action="postArticle" method="post" enctype="multipart/form-data">
+		<input type="text" name ="title" placeholder = "title">
+		<input type="text" name ="textContent" placeholder = "content">
+		<input type="text" name ="category" placeholder = "category">
+		<input type="checkbox" name="isLeading" value="true"> Leading <br>
+		<input type="file" name="image" placeholder = "images"><br>
+		
+		<input type="submit" value="post article"><br>
+	</form>
 </body>
 </html>

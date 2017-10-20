@@ -14,15 +14,22 @@
 		<c:out value="${user.username }"></c:out>
 		<c:out value="${user.email }"></c:out>
 		<c:if test="${user.avatarUrl!=null }">
-			<c:out value="${user.avatarUrl }"></c:out>
 			<img id="avatar" src="avatarUpload">
+			<form action="avatarUpload" method="post" enctype="multipart/form-data">
+				Avatar<input type="file" name="avatar"><br>
+				<input type="submit" value="change avatar"><br>
+			</form>
 		</c:if>
-		<form action="avatarUpload" method="post" enctype="multipart/form-data">
-			Avatar<input type="file" name="avatar"><br>
-			<input type="submit" value="upload"><br>
-		</form>
 		
+		<c:if test="${user.avatarUrl==null }">
+			<form action="avatarUpload" method="post" enctype="multipart/form-data">
+				Avatar<input type="file" name="avatar"><br>
+				<input type="submit" value="upload"><br>
+			</form>
+		</c:if>
 		
+		<hr>
+		<hr>
 		<c:if test="${user.admin }">
 			<jsp:include page="admin.jsp"></jsp:include>
 		</c:if>

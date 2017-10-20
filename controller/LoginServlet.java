@@ -26,10 +26,10 @@ public class LoginServlet extends HttpServlet {
 			if(UserDao.getInstance().existsUser(username, password)) {
 	
 			User user = UserDao.getInstance().getUser(username);
-				//update session
-				request.getSession().setAttribute("user", user);
-
-				request.getRequestDispatcher("index.jsp").forward(request, response);
+			//update session
+			request.getSession().setAttribute("user", user);
+			System.out.println(user.getAvatarUrl());
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 			}else {
 				//forgot pass?
 				request.setAttribute("error", "user does not exist");

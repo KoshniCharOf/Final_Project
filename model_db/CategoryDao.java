@@ -5,15 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.sun.java.swing.plaf.windows.WindowsTreeUI.CollapsedIcon;
+
 import model.Category;
+import util.Encrypter;
 
 public final class CategoryDao {
 	
 	private static CategoryDao instance;
 	
-	private ConcurrentHashMap<Long, String> categories;
+	private ConcurrentHashMap<Long, Category> categories;
 	
 	private CategoryDao(){
 		this.categories = new ConcurrentHashMap<>(30);//initialCapacity Only
@@ -37,7 +42,18 @@ public final class CategoryDao {
 		rs.next();
 		long id = rs.getLong(1);
 		category.setId(id);
-		categories.put(id, name);
+		categories.put(id, category);
+	}
+	
+	public boolean existsCategory(String name) throws SQLException{
+
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("SELECT count(*) as count FROM categories c WHERE c.name = ?");
+		ps.setString(1, name);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+	
+		return rs.getInt("count")>0;
 	}
 	
 	public boolean removeCategory(long category_id) throws SQLException{
@@ -62,7 +78,12 @@ public final class CategoryDao {
 	
 	public synchronized Category getCategoryById(long category_id) throws SQLException{
 		
-		return new Category(category_id, categories.get(category_id));//using cashing
+		return this.categories.get(category_id);//using cashing
 	}
+
+	public Map<Long, Category> getCategories() {
+		return Collections.unmodifiableMap(categories);
+	}
+	
 	
 }

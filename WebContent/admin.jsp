@@ -8,15 +8,28 @@
 <title>admin menu</title>
 </head>
 <body>
-(title, textContent, category_id, isLeading, mediaFiles)
+
+	<form action="AddCategory" method="post" >
+		<input type="text" name ="category" placeholder = "category name">
+		<input type="submit" value="post category"><br>
+	</form>
+	
+	
 	<form action="postArticle" method="post" enctype="multipart/form-data">
+	
 		<input type="text" name ="title" placeholder = "title">
 		<input type="text" name ="textContent" placeholder = "content">
-		<input type="text" name ="category" placeholder = "category">
+		
+		<select name="category">
+			<c:forEach items="${sessionScope.categories}" var="category">
+				<option value=${ category.key}> ${ category.value.name}</option>
+	    	</c:forEach>
+		</select>
+		 
 		<input type="checkbox" name="isLeading" value="true"> Leading <br>
 		<input type="file" name="image" placeholder = "images"><br>
 		
-		<input type="submit" value="post article"><br>
+		<input type="submit" value="post article">
 	</form>
 </body>
 </html>

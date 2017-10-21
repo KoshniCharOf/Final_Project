@@ -57,7 +57,9 @@ public final class MediaDao {
 		PreparedStatement ps = con.prepareStatement("SELECT media_id, name, content_url FROM media m WHERE m.name = ?");
 		ps.setString(1, name);
 		ResultSet rs = ps.executeQuery();
-		rs.next();
+		if(!rs.next()){
+			return null;
+		}
 		return new Media(rs.getLong("media_id"), name, rs.getString("content_url"));
 	}
 	

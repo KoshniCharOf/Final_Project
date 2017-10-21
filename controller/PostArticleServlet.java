@@ -37,7 +37,8 @@ public class PostArticleServlet extends HttpServlet {
 		System.out.println(leading);
 		boolean isLeading = leading!=null;
 		
-		long category_id = 123;
+		String category = request.getParameter("category");
+		long category_id = Integer.parseInt(category);
 		
 		Set<Media> mediaFiles = new HashSet<>();
 		String url = getUrl(request);

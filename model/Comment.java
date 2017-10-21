@@ -12,6 +12,7 @@ public class Comment {
 	private int dislikes;
 	private LocalDateTime timeCreated;
 	private boolean isAproved;
+	private HashSet<User> voters = new HashSet<User>();
 	
 	
 	
@@ -62,6 +63,8 @@ public class Comment {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
+	
 
 	@Override
 	public int hashCode() {

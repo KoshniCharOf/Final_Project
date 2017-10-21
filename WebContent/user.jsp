@@ -14,14 +14,15 @@
 		<c:out value="${user.username }"></c:out>
 		<c:out value="${user.email }"></c:out>
 		<c:if test="${user.avatarUrl!=null }">
-			<img id="avatar" src="avatarUpload">
+			<img id="avatar" src="avatarUpload"  width="50" height= auto>
 			<form action="avatarUpload" method="post" enctype="multipart/form-data">
-				Avatar<input type="file" name="avatar"><br>
+				<input type="file" name="avatar"><br>
 				<input type="submit" value="change avatar"><br>
 			</form>
 		</c:if>
 		
 		<c:if test="${user.avatarUrl==null }">
+		<!-- update session -->
 			<form action="avatarUpload" method="post" enctype="multipart/form-data">
 				Avatar<input type="file" name="avatar"><br>
 				<input type="submit" value="upload"><br>

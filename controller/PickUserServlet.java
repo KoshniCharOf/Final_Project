@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletException;
@@ -26,12 +27,23 @@ public class PickUserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//get user from session
+		User user = (User) request.getSession().getAttribute("user");
 		//update user
-
-		Map<Long, Category> categories = CategoryDao.getInstance().getCategories();
+		String username = user.getUsername();
+		Set<Category> categories = null;
+			try {
+				user = UserDao.getInstance().getUser(username);
+				request.getSession().setAttribute("user", user);
+				
+				categories = CategoryDao.getInstance().getAllCategories();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		request.getSession().setAttribute("categories", categories);
-		for (Long i : categories.keySet()) {
-			System.out.println(categories.get(i).getName());
+		for (Category c : categories) {
+			System.out.println(c.getName());
 		}
 		//forward to user page
 		request.getRequestDispatcher("user.jsp").forward(request, response);

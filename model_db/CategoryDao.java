@@ -6,22 +6,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.sun.java.swing.plaf.windows.WindowsTreeUI.CollapsedIcon;
-
 import model.Category;
-import util.Encrypter;
 
 public final class CategoryDao {
 	
 	private static CategoryDao instance;
 	
-	private ConcurrentHashMap<Long, Category> categories;
+	//private ConcurrentHashMap<Long, Category> categories;
 	
 	private CategoryDao(){
-		this.categories = new ConcurrentHashMap<>(30);//initialCapacity Only
+		//this.categories = new ConcurrentHashMap<>(30);//initialCapacity Only
 	}
 	
 	public static synchronized CategoryDao getInstance(){
@@ -41,8 +40,8 @@ public final class CategoryDao {
 		ResultSet rs = ps.getGeneratedKeys();
 		rs.next();
 		long id = rs.getLong(1);
-		category.setId(id);
-		categories.put(id, category);
+		category.setCategoryId(id);
+		//categories.put(id, category);
 	}
 	
 	public boolean existsCategory(String name) throws SQLException{
@@ -56,13 +55,27 @@ public final class CategoryDao {
 		return rs.getInt("count")>0;
 	}
 	
+	public Set<Category> getAllCategories() throws SQLException{
+		
+		Set<Category> categories = new HashSet<>();
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("SELECT c.category_id , c.name FROM categories c ");
+		ResultSet rs = ps.executeQuery();
+		
+		while (rs.next()) {
+			categories.add(new Category(rs.getLong(1), rs.getString(2)));
+			
+		}
+		return categories;
+	}
+	
 	public boolean removeCategory(long category_id) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("DELETE FROM categories c WHERE c.category_id = ?", Statement.RETURN_GENERATED_KEYS);
 		ps.setLong(1, category_id);
 		ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
-		this.categories.remove(category_id);
+		//this.categories.remove(category_id);
 		return rs.next();
 	}
 	
@@ -76,14 +89,14 @@ public final class CategoryDao {
 		return new Category( rs.getLong("category_id"),name);
 	}
 	
-	public synchronized Category getCategoryById(long category_id) throws SQLException{
-		
-		return this.categories.get(category_id);//using cashing
-	}
-
-	public Map<Long, Category> getCategories() {
-		return Collections.unmodifiableMap(categories);
-	}
+//	public synchronized Category getCategoryById(long category_id) throws SQLException{
+//		
+//		return this.categories.get(category_id);//using cashing
+//	}
+//
+//	public Map<Long, Category> getCategories() {
+//		return Collections.unmodifiableMap(categories);
+//	}
 	
 	
 }

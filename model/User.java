@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class User {
+public class User implements Serializable{
 
 	public static final String AVATAR_URL = "D:\\uploads\\";
 	private long id;

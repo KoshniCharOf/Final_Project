@@ -22,7 +22,7 @@
 		
 		<select name="category">
 			<c:forEach items="${sessionScope.categories}" var="category">
-				<option value=${ category.key}> ${ category.value.name}</option>
+				<option value=${ category.categoryId}> ${ category.name}</option>
 	    	</c:forEach>
 		</select>
 		 

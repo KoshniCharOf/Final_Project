@@ -48,6 +48,7 @@ public class AddCategory extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		request.getRequestDispatcher("user.jsp").forward(request, response);
 	}
 
 }

@@ -27,7 +27,19 @@ public class Comment {
 		this.content = content;
 		this.timeCreated = LocalDateTime.now();
 	}
-
+	
+	public boolean checkVoted(User user){
+		if (this.voters.contains(user)){
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public List getVoters(){
+		return Collections.unmodifiableSet(this.voters);
+	}
+	
 	public long getId() {
 		return id;
 	}

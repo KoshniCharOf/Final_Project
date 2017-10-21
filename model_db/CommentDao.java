@@ -97,6 +97,8 @@ public final class CommentDao {
 	//likes
     public synchronized void likeComment(long comment_id) throws SQLException {
     	Connection con = DBManager.getInstance().getConnection();
+    	
+    	
 		PreparedStatement ps = con.prepareStatement("UPDATE comments c SET c.likes = likes+1 WHERE c.comment_id = ?", Statement.RETURN_GENERATED_KEYS);
 		ps.setLong(1, comment_id);
 		ps.executeUpdate();

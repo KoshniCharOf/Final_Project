@@ -1,11 +1,16 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 
-public class Article {
+public class Article implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String title;
 	private String textContent;
@@ -76,6 +81,31 @@ public class Article {
 
 	public Set<Media> getMediaFiles() {
 		return Collections.unmodifiableSet(mediaFiles);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (category_id ^ (category_id >>> 32));
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Article other = (Article) obj;
+		if (category_id != other.category_id)
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 	
 	

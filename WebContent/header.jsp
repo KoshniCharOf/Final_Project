@@ -28,6 +28,6 @@
 			</form>
 		</c:if>
 		
-		
+		<jsp:include page="search.jsp"></jsp:include>
 	</body>
 </html>

@@ -1,7 +1,10 @@
 package model;
 
-public class Media {
+import java.io.Serializable;
+
+public class Media implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	public static final String IMAGE_URL = "D:\\uploads\\images\\";
 	private long media_id;
 	private String name;//45

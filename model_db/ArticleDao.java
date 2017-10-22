@@ -138,5 +138,13 @@ public final class ArticleDao {
 			return article;
 		}
 		
-		
+		public void incremenImpression(long articleId) throws SQLException{
+			
+			Connection con  = DBManager.getInstance().getConnection();
+			String sql = "UPDATE articles as a SET a.impressions=a.impressions+1  WHERE a.article_id=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setLong(1, articleId);
+			ps.executeUpdate();
+			
+		}
 }

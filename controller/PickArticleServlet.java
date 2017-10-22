@@ -15,7 +15,7 @@ import model_db.ArticleDao;
 
 @WebServlet("/pickArticle")
 public class PickArticleServlet extends HttpServlet {
-	//private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
        
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +29,9 @@ public class PickArticleServlet extends HttpServlet {
 		Article article = null;
 		try {
 			article = ArticleDao.getInstance().getArtticleById(articleId);
+			
 			//increment immpressions
+			ArticleDao.getInstance().incremenImpression(articleId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

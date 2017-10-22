@@ -40,6 +40,7 @@ CREATE TABLE `article_media` (
 
 LOCK TABLES `article_media` WRITE;
 /*!40000 ALTER TABLE `article_media` DISABLE KEYS */;
+INSERT INTO `article_media` VALUES (3,1),(3,6),(6,9);
 /*!40000 ALTER TABLE `article_media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +65,7 @@ CREATE TABLE `articles` (
   KEY `idx_article_title` (`title`),
   KEY `fk_category_id_idx` (`category_id`),
   CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='longtext check\ncategories table\nnot sure about comments\n/where to add sub_category it has to be from category but not sure\nstatus_id breaking, top, shock:)\nobject_id Levski, CSKA...\n...add subscribers may be\nremoved tag, picture and video because  both refer to article_id';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='longtext check\ncategories table\nnot sure about comments\n/where to add sub_category it has to be from category but not sure\nstatus_id breaking, top, shock:)\nobject_id Levski, CSKA...\n...add subscribers may be\nremoved tag, picture and video because  both refer to article_id';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,6 +74,7 @@ CREATE TABLE `articles` (
 
 LOCK TABLES `articles` WRITE;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
+INSERT INTO `articles` VALUES (3,1,'cska levski','dva na dva bace','2017-10-21 22:04:48',0,1),(5,3,'rugbistaa','ole mnogo boi ima tuka','2017-10-22 12:23:31',0,1),(6,1,'ludite','ludogoretz pe4eli','2017-10-22 12:26:25',0,1);
 /*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +89,7 @@ CREATE TABLE `categories` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +98,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'futboll'),(2,'basketball'),(3,'rugby'),(4,'tennis'),(5,'handball'),(6,'tennisa');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +148,7 @@ CREATE TABLE `media` (
   `content_url` varchar(1024) NOT NULL,
   PRIMARY KEY (`media_id`),
   UNIQUE KEY `content_url_UNIQUE` (`content_url`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='content_url 2083 can not be unique';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='content_url 2083 can not be unique';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,6 +157,7 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
+INSERT INTO `media` VALUES (1,'zaglaviq','D:\\uploads\\images\\.jpg'),(6,'cska levski','D:\\uploads\\images\\cska levski.jpg'),(7,'zaglaviqa','D:\\uploads\\images\\zaglaviqa.jpg'),(8,'rugbistaa','D:\\uploads\\images\\rugbistaa.jpg'),(9,'ludite','D:\\uploads\\images\\ludite.jpg');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,8 +192,37 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'k@a.n','kkk\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','koko',111,'avatar_url',1,0,NULL),(2,'bz@abv.bg','0000000\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','batzlat',31,'avatar_url',0,0,NULL),(3,'kkkdak@abv.bg','dsasdad','dsadasd',NULL,NULL,NULL,NULL,NULL),(4,'kkk2@abg.bg','122211','koko2',NULL,NULL,NULL,NULL,NULL),(5,'kksk2@abg.bg','dasdada','koko2s',NULL,NULL,NULL,NULL,NULL),(6,'saSSs@abv.bg','AsASadssd','kjkjk',NULL,NULL,NULL,NULL,NULL),(9,'kkk@abg.bgsa','ssgOVrjt8LGsh5PS/qorlWooxKsrNPqaYCGbEnJsSC2u3wIaxiluAZbBrVI/g1dLNF3qV5NDgA5VTJdkuyKNbg==','dddd',NULL,NULL,NULL,NULL,NULL),(14,'k@k.k','xgAdWyrD3zFCBKj516AOFQPJq6D9RThkXeS/TMfiVVz+n/nQI2vzJ+0+kHhJqY300zDEvqVRAX1GW0wdm4C8sA==','koshnicharov',18,NULL,0,0,'2017-10-19 23:37:37');
+INSERT INTO `users` VALUES (1,'k@a.n','kkk\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','koko',111,'avatar_url',1,0,NULL),(2,'bz@abv.bg','0000000\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','batzlat',31,'avatar_url',0,0,NULL),(3,'kkkdak@abv.bg','dsasdad','dsadasd',NULL,NULL,NULL,NULL,NULL),(4,'kkk2@abg.bg','122211','koko2',NULL,NULL,NULL,NULL,NULL),(5,'kksk2@abg.bg','dasdada','koko2s',NULL,NULL,NULL,NULL,NULL),(6,'saSSs@abv.bg','AsASadssd','kjkjk',NULL,NULL,NULL,NULL,NULL),(9,'kkk@abg.bgsa','ssgOVrjt8LGsh5PS/qorlWooxKsrNPqaYCGbEnJsSC2u3wIaxiluAZbBrVI/g1dLNF3qV5NDgA5VTJdkuyKNbg==','dddd',NULL,NULL,NULL,NULL,NULL),(14,'k@k.k','xgAdWyrD3zFCBKj516AOFQPJq6D9RThkXeS/TMfiVVz+n/nQI2vzJ+0+kHhJqY300zDEvqVRAX1GW0wdm4C8sA==','koshnicharov',18,'D:\\uploads\\koshnicharov.jpg',1,0,'2017-10-19 23:37:37');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `votes`
+--
+
+DROP TABLE IF EXISTS `votes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `votes` (
+  `vote_id` int(11) NOT NULL AUTO_INCREMENT,
+  `comments_comment_id` int(11) NOT NULL,
+  `users_user_id` int(11) NOT NULL,
+  PRIMARY KEY (`vote_id`),
+  UNIQUE KEY `vote_id_UNIQUE` (`vote_id`),
+  KEY `fk_votes_comments_idx` (`comments_comment_id`),
+  KEY `fk_votes_users1_idx` (`users_user_id`),
+  CONSTRAINT `fk_votes_comments` FOREIGN KEY (`comments_comment_id`) REFERENCES `comments` (`comment_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_votes_users1` FOREIGN KEY (`users_user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `votes`
+--
+
+LOCK TABLES `votes` WRITE;
+/*!40000 ALTER TABLE `votes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `votes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -201,4 +234,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-20  2:13:22
+-- Dump completed on 2017-10-22 16:20:29

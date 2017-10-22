@@ -32,11 +32,7 @@ public class Comment {
 	}
 	
 	public boolean canVote(User user){
-		if (this.voters.contains(user)){
-			return false;
-		} else {
-			return true;
-		}
+		return this.voters.(!contains(user));
 	}
 	
 	public Set<User> getVoters(){

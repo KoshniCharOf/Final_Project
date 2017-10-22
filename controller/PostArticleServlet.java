@@ -54,18 +54,17 @@ public class PostArticleServlet extends HttpServlet {
 			// publishArticle(article)
 			ArticleDao.getInstance().addArticle(article);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("op");
 		}
-		
+		request.getRequestDispatcher("user.jsp").forward(request, response);
 		
 	}
 	
 	private String getUrl(HttpServletRequest req) throws IllegalStateException, IOException, ServletException{
-		  Part avatarPart = req.getPart("image");
-
+		    Part avatarPart = req.getPart("image");
+		    String title = req.getParameter("title");
 			InputStream fis = avatarPart.getInputStream();
-			String image = Media.IMAGE_URL+".jpg";
+			String image = Media.IMAGE_URL+title+".jpg";
 			File myFile = new File(image);
 			if(!myFile.exists()){
 				myFile.createNewFile();

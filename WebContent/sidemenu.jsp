@@ -3,15 +3,12 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Sportalbg- Home</title>
-</head>
+
 <body>
-	<jsp:include page="header.jsp"></jsp:include>
-	<hr>
-	<jsp:include page="sidemenu.jsp"></jsp:include>
-	
-	
+	<c:forEach items="${applicationScope.categories}" var="category">	
+		<c:out value="${category.categoryId}"></c:out>
+			<a href="categoryArticles?category=${ category.categoryId}"><button>${category.name}</button></a>
+	 		<br>
+	 </c:forEach>
 </body>
 </html>

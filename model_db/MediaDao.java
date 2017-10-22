@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import model.Media;
 
@@ -63,13 +65,28 @@ public final class MediaDao {
 		return new Media(rs.getLong("media_id"), name, rs.getString("content_url"));
 	}
 	
-	public synchronized Media getMediaById(long media_id) throws SQLException{
-		
-		String name = this.media.get(media_id).getName();
-		String url = this.media.get(media_id).getUrl();
-		
-		return new Media(media_id, name, url);
+	public  Set<Media> getMediaByArticle(long id) throws SQLException{
+		Set<Media> mediaFiles = new HashSet<Media>();
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("SELECT m.media_id, m.name, m.content_url, am.article_id FROM media as m JOIN article_media as am WHERE m.media_id = am.media_id and am.article_id = ?");
+		ps.setLong(1, id);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			long media_id = rs.getLong(1);
+			String name = rs.getString(2);
+			String url = rs.getString(3);
+			mediaFiles.add(new Media(media_id, name, url));
+		}
+		return mediaFiles;
 	}
+	
+//	public synchronized Media getMediaById(long media_id) throws SQLException{
+//		
+//		String name = this.media.get(media_id).getName();
+//		String url = this.media.get(media_id).getUrl();
+//		
+//		return new Media(media_id, name, url);
+//	}
 	
 	
 }

@@ -1,8 +1,11 @@
 package model;
 
+import java.io.Serializable;
 
-public class Category  {
+public class Category  implements Serializable{
 	
+	
+	private static final long serialVersionUID = 1L;
 	private long categoryId;
 	private String name; //45
 	
@@ -34,6 +37,7 @@ public class Category  {
 	public void setCategoryId(long category_id) {
 		this.categoryId = category_id;
 	} 
+	
 	
 	
 }

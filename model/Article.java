@@ -19,17 +19,18 @@ public class Article implements Serializable{
 	private long impressions;
 	private boolean isLeading; //leading period duration 1 day
 	private Set<Media> mediaFiles;//!!!Set<Integer> media_id???
+	private Set<Comment> comments;
 	
 	
 	public Article(long id, String title, String textContent, long category_id, LocalDateTime created, long impressions,
-			boolean isLeading, Set<Media> mediaFiles) {
-		this(title, textContent, category_id, created, impressions, isLeading, mediaFiles);
+			boolean isLeading, Set<Media> mediaFiles,Set<Comment> comments) {
+		this(title, textContent, category_id, created, impressions, isLeading, mediaFiles,comments);
 		this.id = id;
 		
 	}
 
 	public Article(String title, String textContent, long category_id, LocalDateTime created, long impressions,
-			boolean isLeading, Set<Media> mediaFiles) {
+			boolean isLeading, Set<Media> mediaFiles,Set<Comment> comments) {
 		super();
 		this.title = title;
 		this.textContent = textContent;
@@ -38,6 +39,7 @@ public class Article implements Serializable{
 		this.impressions = impressions;
 		this.isLeading = isLeading;
 		this.mediaFiles = mediaFiles;
+		this.comments = comments;
 	}
 
 
@@ -81,6 +83,10 @@ public class Article implements Serializable{
 
 	public Set<Media> getMediaFiles() {
 		return Collections.unmodifiableSet(mediaFiles);
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
 	}
 
 	@Override

@@ -18,17 +18,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import model.Article;
+import model.Comment;
 import model.Media;
-import model.User;
 import model_db.ArticleDao;
 import model_db.MediaDao;
-import model_db.UserDao;
 
 
 @WebServlet("/postArticle")
 @MultipartConfig
 public class PostArticleServlet extends HttpServlet {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//collect data from request
 		String title = request.getParameter("title");
@@ -50,12 +51,13 @@ public class PostArticleServlet extends HttpServlet {
 			if(MediaDao.getInstance().getMediaByName(title)==null){
 				mediaId = MediaDao.getInstance().addMedia(media);
 			}else{
+				//if exists in another article
 				Media exists = MediaDao.getInstance().getMediaByName(title);
 				mediaId = exists.getMedia_id();
 			}
-			
+			Set<Comment> comments = new HashSet<>();
 			// create article 
-			Article article = new Article(title, textContent, category_id, LocalDateTime.now(), 0, isLeading, mediaFiles);
+			Article article = new Article(title, textContent, category_id, LocalDateTime.now(), 0, isLeading, mediaFiles,comments);
 			// publishArticle(article)
 			long articleId = ArticleDao.getInstance().addArticle(article);
 			MediaDao.getInstance().addInArticleMedia(articleId, mediaId);

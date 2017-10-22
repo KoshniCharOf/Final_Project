@@ -20,6 +20,14 @@
 					<img id="media" src="ShowMedia?mediaId=${media.media_id}"  width="100" height= auto>
 				</c:forEach>
 				<hr>
+				<c:forEach items="${article.comments}" var="comment">
+					<c:out value="${comment.userId }">userId</c:out> <br>
+					<c:out value="${comment.content }"></c:out> <br>
+					<c:out value="${comment.likes }">likes</c:out> 
+					<c:out value="${comment.dislikes }">dislikes</c:out> <br>
+					<c:out value="${comment.timeCreated }">timeCreated</c:out> <br>
+					<c:out value="${comment.aproved }">aproved</c:out> <br>
+				</c:forEach>
 	 
 
 </body>

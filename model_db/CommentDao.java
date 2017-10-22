@@ -6,12 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.Collections;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import model.Comment;
+import model.User;
 
 public final class CommentDao {
 	
@@ -32,8 +33,8 @@ public final class CommentDao {
 	public synchronized void addComment(Comment comment) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("INSERT INTO comments (user_id, article_id, content, date_time,isApproved ) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-		ps.setLong(1, comment.getUser_id());
-		ps.setLong(2, comment.getArticle_id());
+		ps.setLong(1, comment.getUserId());
+		ps.setLong(2, comment.getArticleId());
 		ps.setString(3, comment.getContent());
 		ps.setTimestamp(4, Timestamp.valueOf(comment.getTimeCreated()));
 		ps.setBoolean(5, true);
@@ -42,7 +43,7 @@ public final class CommentDao {
 		rs.next();
 		long id = rs.getLong(1);
 		comment.setId(id);
-		addInCommentsByArticle(comment.getArticle_id(),comment);
+		addInCommentsByArticle(comment.getArticleId(),comment);
 		
 	}
 	
@@ -56,7 +57,7 @@ public final class CommentDao {
 	public synchronized boolean removeComment(Comment comment) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("DELETE FROM comments WHERE c.comment_id = ?", Statement.RETURN_GENERATED_KEYS);
-		ps.setLong(1, comment.getId());
+		ps.setLong(1, comment.getCommentId());
 		ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
 		removeFromCommentsByArticle(comment);
@@ -64,7 +65,7 @@ public final class CommentDao {
 	}
 	
 	private void removeFromCommentsByArticle(Comment comment) {
-		this.commentsByArticle.get(comment.getArticle_id()).remove(comment);
+		this.commentsByArticle.get(comment.getArticleId()).remove(comment);
 	}
 
 	public boolean updateComment(long comment_id, String content) throws SQLException{
@@ -88,11 +89,11 @@ public final class CommentDao {
 	}
 	
 	
-    public synchronized Set<Comment> getCommentsByArticle(long article_id) throws SQLException{
-		Set<Comment> comments = this.commentsByArticle.get(article_id);
-		
-		return Collections.unmodifiableSet(comments);
-	}
+//    public synchronized Set<Comment> getCommentsByArticle(long article_id) throws SQLException{
+//		Set<Comment> comments = this.commentsByArticle.get(article_id);
+//		
+//		return Collections.unmodifiableSet(comments);
+//	}
 	
 	//likes
     public synchronized void likeComment(long comment_id) throws SQLException {
@@ -110,6 +111,51 @@ public final class CommentDao {
 		ps.setLong(1, comment_id);
 		ps.executeUpdate();
     }
+    
+    public  Set<Comment> getCommentsByArticle(long id) throws SQLException{
+		Set<Comment> comments = new HashSet<Comment>();
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("SELECT comment_id, user_id, article_id, content, likes, dislikes, date_time, isApproved FROM sportal.comments WHERE article_id=?");
+		ps.setLong(1, id);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			long commentId = rs.getLong(1);
+			long userId = rs.getLong(2);
+			long articleId = rs.getLong(3);
+			String content = rs.getString(4);
+			int likes = rs.getInt(5);
+			int dislikes = rs.getInt(6);
+			LocalDateTime timeCreated = rs.getTimestamp(7).toLocalDateTime();
+			boolean isAproved = rs.getBoolean(8);
+			//TODO 
+			Set<User> voters = new HashSet<>();
+			
+			comments.add(new Comment(commentId, userId, articleId, content, likes, dislikes, timeCreated, isAproved, voters));
+		}
+		return comments;
+	}
+    
+    public Comment getCommentById(long id) throws SQLException{
+		
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("SELECT comment_id, user_id, article_id, content, likes, dislikes, date_time, isApproved FROM sportal.comments WHERE comment_id=?");
+		ps.setLong(1, id);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		
+		long commentId = rs.getLong(1);
+		long userId = rs.getLong(2);
+		long articleId = rs.getLong(3);
+		String content = rs.getString(4);
+		int likes = rs.getInt(5);
+		int dislikes = rs.getInt(6);
+		LocalDateTime timeCreated = rs.getTimestamp(7).toLocalDateTime();
+		boolean isAproved = rs.getBoolean(8);
+		//TODO 
+		Set<User> voters = new HashSet<>();
+		
+		return new Comment(commentId, userId, articleId, content, likes, dislikes, timeCreated, isAproved, voters);
+	}
 	
 
 	

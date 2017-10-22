@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import model.Article;
+import model.Comment;
 import model.Media;
 
 public final class ArticleDao {
@@ -86,7 +87,9 @@ public final class ArticleDao {
 			long impressions = rs.getInt(6);
 			boolean isLeading = rs.getInt(7)==1;
 			Set<Media> mediaFiles = MediaDao.getInstance().getMediaByArticle(articleId);
-			Article a = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles);
+			Set<Comment> comments = CommentDao.getInstance().getCommentsByArticle(articleId);
+			Article a = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles,comments);
+			
 			articles.add(a);
 		}
 		
@@ -110,7 +113,8 @@ public final class ArticleDao {
 				long impressions = rs.getInt(6);
 				boolean isLeading = rs.getInt(7)==1;
 				Set<Media> mediaFiles = MediaDao.getInstance().getMediaByArticle(articleId);
-				Article a = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles);
+				Set<Comment> comments = CommentDao.getInstance().getCommentsByArticle(articleId);
+				Article a = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles,comments);
 				articles.add(a);
 			}
 			
@@ -133,7 +137,8 @@ public final class ArticleDao {
 			long impressions = rs.getInt(6);
 			boolean isLeading = rs.getInt(7)==1;
 			Set<Media> mediaFiles = MediaDao.getInstance().getMediaByArticle(articleId);
-			Article article = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles);
+			Set<Comment> comments = CommentDao.getInstance().getCommentsByArticle(articleId);
+			Article article = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles, comments);
 				
 			return article;
 		}

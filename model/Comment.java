@@ -2,53 +2,60 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 public class Comment {
 	
-	private long id;
-	private long user_id;
-	private long article_id;
+	private long commentId;
+	private long userId;
+	private long articleId;
 	private String content;
 	private int likes;
 	private int dislikes;
 	private LocalDateTime timeCreated;
 	private boolean isAproved;
-	private HashSet<User> voters = new HashSet<User>();
+	private Set<User> voters;
 	
-	
-	
-	public Comment(long id, long user_id, long article_id, String content) {
-		this(user_id, article_id, content);
-		this.id = id;
+
+	public Comment(long commentId, long userId, long articleId, String content, int likes, int dislikes, LocalDateTime timeCreated,
+			boolean isAproved, Set<User> voters) {
+		this(userId, articleId, content, likes, dislikes, timeCreated, isAproved, voters );
+		this.commentId = commentId;
 	}
 
-	public Comment(long user_id, long article_id, String content) {
-		this.user_id = user_id;
-		this.article_id = article_id;
+	public Comment(long userId, long articleId, String content, int likes, int dislikes, LocalDateTime timeCreated,
+			boolean isAproved, Set<User> voters) {
+		super();
+		this.userId = userId;
+		this.articleId = articleId;
 		this.content = content;
-		this.timeCreated = LocalDateTime.now();
+		this.likes = likes;
+		this.dislikes = dislikes;
+		this.timeCreated = timeCreated;
+		this.isAproved = isAproved;
+		this.voters = voters;
 	}
-	
+
 	public boolean canVote(User user){
-		return this.voters.(!contains(user));
+		return !this.voters.contains(user);
 	}
 	
 	public Set<User> getVoters(){
 		return Collections.unmodifiableSet(this.voters);
 	}
 	
-	public long getId() {
-		return id;
+	
+
+	public long getCommentId() {
+		return commentId;
 	}
 
-	public long getUser_id() {
-		return user_id;
+	public long getUserId() {
+		return userId;
 	}
 
-	public long getArticle_id() {
-		return article_id;
+	public long getArticleId() {
+		return articleId;
 	}
 
 	public String getContent() {
@@ -72,7 +79,7 @@ public class Comment {
 	}
 
 	public void setId(long id) {
-		this.id = id;
+		this.commentId = id;
 	}
 	
 	
@@ -81,8 +88,8 @@ public class Comment {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (article_id ^ (article_id >>> 32));
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + (int) (articleId ^ (articleId >>> 32));
+		result = prime * result + (int) (commentId ^ (commentId >>> 32));
 		return result;
 	}
 
@@ -95,9 +102,9 @@ public class Comment {
 		if (getClass() != obj.getClass())
 			return false;
 		Comment other = (Comment) obj;
-		if (article_id != other.article_id)
+		if (articleId != other.articleId)
 			return false;
-		if (id != other.id)
+		if (commentId != other.commentId)
 			return false;
 		return true;
 	}

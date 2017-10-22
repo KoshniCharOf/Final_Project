@@ -28,7 +28,7 @@ public final class MediaDao {
 	
 
 	
-	public void addMedia(Media media) throws SQLException{
+	public long addMedia(Media media) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("INSERT INTO media (name, content_url) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, media.getName());
@@ -37,7 +37,20 @@ public final class MediaDao {
 		ResultSet rs = ps.getGeneratedKeys();
 		rs.next();
 		media.setId(rs.getLong(1));
+		
 		this.media.put(media.getId(), media);
+		return media.getId();
+	}
+	
+	public boolean addInArticleMedia(long articleId, long mediaId) throws SQLException{
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("INSERT INTO article_media (article_id, media_id) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+		ps.setLong(1, articleId);
+		ps.setLong(2, mediaId);
+		ps.executeUpdate();
+		ResultSet rs = ps.getGeneratedKeys();
+	
+		return rs.next();
 	}
 	
 	public boolean removeMedia(long media_id) throws SQLException{

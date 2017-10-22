@@ -34,7 +34,7 @@ public class PostArticleServlet extends HttpServlet {
 		String textContent = request.getParameter("textContent");
 		
 		String leading = request.getParameter("isLeading");
-		System.out.println(leading);
+		
 		boolean isLeading = leading!=null;
 		
 		String category = request.getParameter("category");
@@ -44,15 +44,20 @@ public class PostArticleServlet extends HttpServlet {
 		String url = getUrl(request);
 		Media media = new Media(title, url);
 		mediaFiles.add(media);
+		long mediaId = 0;
 		try {
 			if(MediaDao.getInstance().getMediaByName(title)==null){
-				MediaDao.getInstance().addMedia(media);
+				mediaId = MediaDao.getInstance().addMedia(media);
+			}else{
+				Media exists = MediaDao.getInstance().getMediaByName(title);
+				mediaId = exists.getId();
 			}
 			
 			// create article 
 			Article article = new Article(title, textContent, category_id, isLeading, mediaFiles);
 			// publishArticle(article)
-			ArticleDao.getInstance().addArticle(article);
+			long articleId = ArticleDao.getInstance().addArticle(article);
+			MediaDao.getInstance().addInArticleMedia(articleId, mediaId);
 		} catch (SQLException e) {
 			System.out.println("op");
 		}

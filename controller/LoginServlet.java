@@ -28,7 +28,6 @@ public class LoginServlet extends HttpServlet {
 			User user = UserDao.getInstance().getUser(username);
 			//update session
 			request.getSession().setAttribute("user", user);
-			System.out.println(user.getAvatarUrl());
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 			}else {
 				//forgot pass?

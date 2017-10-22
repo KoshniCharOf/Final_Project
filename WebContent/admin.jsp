@@ -21,7 +21,7 @@
 		<input type="text" name ="textContent" placeholder = "content">
 		
 		<select name="category">
-			<c:forEach items="${sessionScope.categories}" var="category">
+			<c:forEach items="${applicationScope.categories}" var="category">
 				<option value=${ category.categoryId}> ${ category.name}</option>
 	    	</c:forEach>
 		</select>
@@ -30,6 +30,13 @@
 		<input type="file" name="image" placeholder = "images"><br>
 		
 		<input type="submit" value="post article">
+	</form>
+	
+	<form action="deleteArticle" method="post" >
+	
+		<input type="text" name ="title" placeholder = "title">
+		
+		<input type="submit" value="delete article">
 	</form>
 </body>
 </html>

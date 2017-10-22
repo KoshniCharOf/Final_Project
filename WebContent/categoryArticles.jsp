@@ -5,13 +5,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Sportalbg- Home</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="header.jsp"></jsp:include>
-	<hr>
-	<jsp:include page="sidemenu.jsp"></jsp:include>
-	
-	
+
+	<c:forEach items="${sessionScope.articles}" var="article">
+				<c:out value="${article.title }"></c:out>
+				<c:out value="${article.textContent }"></c:out>
+				<br>
+	 </c:forEach>
+
 </body>
 </html>

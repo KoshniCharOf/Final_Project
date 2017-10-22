@@ -32,9 +32,13 @@ public final class CategoryDao {
 	
 	
 	public void addCategory(Category category) throws SQLException{
+		String name = category.getName();
+		if(name==null || name.trim().isEmpty()){
+			return;
+		}
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("INSERT INTO categories (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-		String name = category.getName();
+		
 		ps.setString(1, name);
 		ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();

@@ -28,7 +28,7 @@ public class Comment {
 		this.timeCreated = LocalDateTime.now();
 	}
 	
-	public boolean checkVoted(User user){
+	public boolean canVote(User user){
 		if (this.voters.contains(user)){
 			return false;
 		} else {

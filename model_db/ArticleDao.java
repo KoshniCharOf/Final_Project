@@ -27,7 +27,7 @@ public final class ArticleDao {
 		return instance;
 	}
 
-	public void addArticle(Article article) throws SQLException{
+	public long addArticle(Article article) throws SQLException{
 		
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("INSERT INTO articles (category_id, title, content, datetime, impressions, isLeading) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -42,6 +42,7 @@ public final class ArticleDao {
 		rs.next();
 		long article_id = rs.getLong(1);
 		article.setId(article_id);
+		return article.getId();
 		
 	}
 	

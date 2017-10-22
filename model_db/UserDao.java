@@ -25,7 +25,7 @@ public final class UserDao {
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("INSERT INTO users (username, password, email, isAdmin, isBanned, date_time_registered) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, u.getUsername());
-		ps.setString(2, Encrypter.encrypt(u.getPassword()));//put good salt
+		ps.setString(2, Encrypter.encrypt(new StringBuilder(u.getPassword()).reverse().toString()));//reversed password to be hashed
 		ps.setString(3, u.getEmail());
 	
 		ps.setBoolean(4, u.isAdmin());
@@ -44,7 +44,7 @@ public final class UserDao {
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("SELECT count(*) as count FROM users u WHERE u.username = ? AND u.password = ?");
 		ps.setString(1, username);
-		ps.setString(2, Encrypter.encrypt(password));
+		ps.setString(2, Encrypter.encrypt(new StringBuilder(password).reverse().toString()));
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 	
@@ -89,7 +89,7 @@ public final class UserDao {
 		Connection con = DBManager.getInstance().getConnection();
 		PreparedStatement ps = con.prepareStatement("select u.isAdmin  from users u where u.name = ?");
 		ps.setString(1, username);
-		ps.setString(2, password);
+		ps.setString(2, new StringBuilder(password).reverse().toString());
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		return rs.getInt("u.isAdmin") == 1;

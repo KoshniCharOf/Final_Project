@@ -16,24 +16,26 @@ public class Article {
 	private Set<Media> mediaFiles;//!!!Set<Integer> media_id???
 	
 	
-	
-	
-	public Article(long id, String title, String textContent, long category_id, boolean isLeading, Set<Media> mediaFiles) {
-		this(title,textContent, category_id, isLeading, mediaFiles);
+	public Article(long id, String title, String textContent, long category_id, LocalDateTime created, long impressions,
+			boolean isLeading, Set<Media> mediaFiles) {
+		this(title, textContent, category_id, created, impressions, isLeading, mediaFiles);
 		this.id = id;
 		
 	}
-	
-	public Article(String title, String textContent, long category_id, boolean isLeading,
-			Set<Media> mediaFiles) {
+
+	public Article(String title, String textContent, long category_id, LocalDateTime created, long impressions,
+			boolean isLeading, Set<Media> mediaFiles) {
 		super();
 		this.title = title;
 		this.textContent = textContent;
 		this.category_id = category_id;
-		this.created = LocalDateTime.now();
+		this.created = created;
+		this.impressions = impressions;
 		this.isLeading = isLeading;
 		this.mediaFiles = mediaFiles;
 	}
+
+
 
 
 

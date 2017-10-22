@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,11 +51,11 @@ public class PostArticleServlet extends HttpServlet {
 				mediaId = MediaDao.getInstance().addMedia(media);
 			}else{
 				Media exists = MediaDao.getInstance().getMediaByName(title);
-				mediaId = exists.getId();
+				mediaId = exists.getMedia_id();
 			}
 			
 			// create article 
-			Article article = new Article(title, textContent, category_id, isLeading, mediaFiles);
+			Article article = new Article(title, textContent, category_id, LocalDateTime.now(), 0, isLeading, mediaFiles);
 			// publishArticle(article)
 			long articleId = ArticleDao.getInstance().addArticle(article);
 			MediaDao.getInstance().addInArticleMedia(articleId, mediaId);

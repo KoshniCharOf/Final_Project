@@ -25,9 +25,7 @@ public class Media {
 		this.media_id = media_id;
 	}
 
-
-
-	public long getId() {
+	public long getMedia_id() {
 		return media_id;
 	}
 

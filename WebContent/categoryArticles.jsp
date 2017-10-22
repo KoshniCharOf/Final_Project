@@ -10,9 +10,15 @@
 <body>
 
 	<c:forEach items="${sessionScope.articles}" var="article">
-				<c:out value="${article.title }"></c:out>
-				<c:out value="${article.textContent }"></c:out>
-				<br>
+				<c:out value="${article.title }"></c:out> <br>
+				<c:out value="${article.textContent }"></c:out> <br>
+				<c:out value="${article.impressions }"></c:out> <br>
+				<c:out value="${article.created }"></c:out> <br>
+				
+				<c:forEach items="${article.mediaFiles}" var="media">
+					<img id="media" src="ShowMedia?mediaId=${media.media_id}"  width="100" height= auto>
+				</c:forEach>
+				<hr>
 	 </c:forEach>
 
 </body>

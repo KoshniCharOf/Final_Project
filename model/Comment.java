@@ -1,6 +1,9 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Comment {
 	
@@ -36,7 +39,7 @@ public class Comment {
 		}
 	}
 	
-	public List getVoters(){
+	public Set<User> getVoters(){
 		return Collections.unmodifiableSet(this.voters);
 	}
 	

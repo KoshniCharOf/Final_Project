@@ -38,8 +38,8 @@ public final class MediaDao {
 		rs.next();
 		media.setId(rs.getLong(1));
 		
-		this.media.put(media.getId(), media);
-		return media.getId();
+		this.media.put(media.getMedia_id(), media);
+		return media.getMedia_id();
 	}
 	
 	public boolean addInArticleMedia(long articleId, long mediaId) throws SQLException{
@@ -76,6 +76,17 @@ public final class MediaDao {
 			return null;
 		}
 		return new Media(rs.getLong("media_id"), name, rs.getString("content_url"));
+	}
+	
+	public  Media getMediaById(long mediaId) throws SQLException{
+		Connection con = DBManager.getInstance().getConnection();
+		PreparedStatement ps = con.prepareStatement("SELECT m.name, m.content_url FROM media m WHERE m.media_id = ?");
+		ps.setLong(1, mediaId);
+		ResultSet rs = ps.executeQuery();
+		if(!rs.next()){
+			return null;
+		}
+		return new Media(mediaId, rs.getString(1), rs.getString(2));
 	}
 	
 	public  Set<Media> getMediaByArticle(long id) throws SQLException{

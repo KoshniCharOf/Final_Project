@@ -5,11 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Sportalbg- Home</title>
+<title>Sportal.bg- Home</title>
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
 	<hr>
+	
 	<jsp:include page="sidemenu.jsp"></jsp:include>
 	
 	

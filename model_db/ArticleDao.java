@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,26 +72,79 @@ public final class ArticleDao {
 	public Set<Article> getArtticlesByCategory(long categoryId) throws SQLException{
 		Set<Article> articles = new HashSet<Article>();
 		Connection con  = DBManager.getInstance().getConnection();
-		//String sql = "SELECT a.article_id, a.category_id, a.title, a.content, a.datetime, a.impressions, a.isLeading , m.media_id, am.article_id FROM  articles as a  JOIN article_media as am ON a.article_id  JOIN media as m ON m.media_id WHERE a.category_id = ? and am.media_id = m.media_id";
-		PreparedStatement ps = con.prepareStatement("SELECT a.article_id, a.category_id, a.title, a.content, a.datetime, a.impressions, a.isLeading , m.media_id, am.article_id FROM  articles as a  JOIN article_media as am ON a.article_id  JOIN media as m ON m.media_id WHERE a.category_id= ? and am.media_id = m.media_id", Statement.RETURN_GENERATED_KEYS);
+		String sql = "SELECT a.article_id, a.category_id, a.title, a.content, a.datetime, a.impressions, a.isLeading  FROM  articles as a  WHERE a.category_id=? ";
+		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setLong(1, categoryId);
-		ps.executeQuery();
-		ResultSet rs = ps.getGeneratedKeys();
-System.out.println(rs.next()+" cat "+categoryId);
+		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			
 			long articleId = rs.getLong(1);
-			//System.out.println("articleId "+articleId);
-			String title = rs.getString(2);
-			String textContent = rs.getString(3);
-			boolean isLeading = rs.getInt(4)==1;
+			System.out.println("articleId "+articleId);
+			String title = rs.getString(3);
+			String textContent = rs.getString(4);
+			LocalDateTime created = rs.getTimestamp(5).toLocalDateTime();
+			long impressions = rs.getInt(6);
+			boolean isLeading = rs.getInt(7)==1;
 			Set<Media> mediaFiles = MediaDao.getInstance().getMediaByArticle(articleId);
-			Article a = new Article(articleId, title, textContent, categoryId, isLeading, mediaFiles);
+			Article a = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles);
 			articles.add(a);
 		}
 		
 		return articles;
 	}
 	
-	
+	//get all articles by title
+		public Set<Article> getArtticlesByTitle(String  title) throws SQLException{
+			Set<Article> articles = new HashSet<Article>();
+			Connection con  = DBManager.getInstance().getConnection();
+			String sql = "SELECT a.article_id, a.category_id, a.title, a.content, a.datetime, a.impressions, a.isLeading  FROM  articles as a  WHERE a.title LIKE ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "%"+title+"%");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				
+				long articleId = rs.getLong(1);
+				long categoryId = rs.getLong(2);
+				String textContent = rs.getString(4);
+				LocalDateTime created = rs.getTimestamp(5).toLocalDateTime();
+				long impressions = rs.getInt(6);
+				boolean isLeading = rs.getInt(7)==1;
+				Set<Media> mediaFiles = MediaDao.getInstance().getMediaByArticle(articleId);
+				Article a = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles);
+				articles.add(a);
+			}
+			
+			return articles;
+		}
+		
+		public Article getArtticleById(long articleId) throws SQLException{
+			
+			Connection con  = DBManager.getInstance().getConnection();
+			String sql = "SELECT a.article_id, a.category_id, a.title, a.content, a.datetime, a.impressions, a.isLeading  FROM  articles as a  WHERE a.article_id=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setLong(1, articleId);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+				
+			long categoryId = rs.getLong(2);
+			String title = rs.getString(3);
+			String textContent = rs.getString(4);
+			LocalDateTime created = rs.getTimestamp(5).toLocalDateTime();
+			long impressions = rs.getInt(6);
+			boolean isLeading = rs.getInt(7)==1;
+			Set<Media> mediaFiles = MediaDao.getInstance().getMediaByArticle(articleId);
+			Article article = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles);
+				
+			return article;
+		}
+		
+		public void incremenImpression(long articleId) throws SQLException{
+			
+			Connection con  = DBManager.getInstance().getConnection();
+			String sql = "UPDATE articles as a SET a.impressions=a.impressions+1  WHERE a.article_id=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setLong(1, articleId);
+			ps.executeUpdate();
+			
+		}
 }

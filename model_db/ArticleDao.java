@@ -116,4 +116,27 @@ public final class ArticleDao {
 			
 			return articles;
 		}
+		
+		public Article getArtticleById(long articleId) throws SQLException{
+			
+			Connection con  = DBManager.getInstance().getConnection();
+			String sql = "SELECT a.article_id, a.category_id, a.title, a.content, a.datetime, a.impressions, a.isLeading  FROM  articles as a  WHERE a.article_id=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setLong(1, articleId);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+				
+			long categoryId = rs.getLong(2);
+			String title = rs.getString(3);
+			String textContent = rs.getString(4);
+			LocalDateTime created = rs.getTimestamp(5).toLocalDateTime();
+			long impressions = rs.getInt(6);
+			boolean isLeading = rs.getInt(7)==1;
+			Set<Media> mediaFiles = MediaDao.getInstance().getMediaByArticle(articleId);
+			Article article = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles);
+				
+			return article;
+		}
+		
+		
 }

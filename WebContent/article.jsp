@@ -9,8 +9,8 @@
 </head>
 <body>
 
-	<c:forEach items="${sessionScope.articles}" var="article">
-				<a href="pickArticle?articleId=${article.id}" >"${article.title }"</a>
+<c:set var="article" scope = "page" value="${sessionScope.article}" ></c:set>
+				
 				<c:out value="${article.title }"></c:out> <br>
 				<c:out value="${article.textContent }"></c:out> <br>
 				<c:out value="${article.impressions }"></c:out> <br>
@@ -20,7 +20,7 @@
 					<img id="media" src="ShowMedia?mediaId=${media.media_id}"  width="100" height= auto>
 				</c:forEach>
 				<hr>
-	 </c:forEach>
+	 
 
 </body>
 </html>

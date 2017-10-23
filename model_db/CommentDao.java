@@ -32,12 +32,14 @@ public final class CommentDao {
 
 	public synchronized void addComment(Comment comment) throws SQLException{
 		Connection con = DBManager.getInstance().getConnection();
-		PreparedStatement ps = con.prepareStatement("INSERT INTO comments (user_id, article_id, content, date_time,isApproved ) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement ps = con.prepareStatement("INSERT INTO comments (user_id, article_id, content, likes, dislikes, date_time, isApproved ) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 		ps.setLong(1, comment.getUserId());
 		ps.setLong(2, comment.getArticleId());
 		ps.setString(3, comment.getContent());
-		ps.setTimestamp(4, Timestamp.valueOf(comment.getTimeCreated()));
-		ps.setBoolean(5, true);
+		ps.setInt(4, comment.getLikes());
+		ps.setInt(5, comment.getDislikes());
+		ps.setTimestamp(6, Timestamp.valueOf(comment.getTimeCreated()));
+		ps.setBoolean(7, true);
 		ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
 		rs.next();

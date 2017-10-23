@@ -35,7 +35,7 @@
 	
 	<c:if test="${user!=null }">
 		<form action="Comment" method="post" >
-		<input type="text" name ="comment" placeholder = "comment here">
+			<input type="text" name ="comment" placeholder = "comment here">
 			<input type="submit" value="comment">
 		</form>
 	</c:if>

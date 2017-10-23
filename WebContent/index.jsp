@@ -10,8 +10,12 @@
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
 	<hr>
-	
+		<a href="Top5?sort=impressions"><button>most viewed</button></a>
+		<a href="Top5?sort=impressions"><button>most commented</button></a>
+		<a href="Top5?sort=impressions"><button>leading</button></a>
+	<hr>
 	<jsp:include page="sidemenu.jsp"></jsp:include>
+	
 	
 	
 </body>

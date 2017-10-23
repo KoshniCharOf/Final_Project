@@ -6,9 +6,8 @@
 
 <body>
 	<c:forEach items="${applicationScope.categories}" var="category">	
-		<c:out value="${category.categoryId}"></c:out>
-			<a href="categoryArticles?category=${ category.categoryId}"><button>${category.name}</button></a>
-	 		<br>
+		<a href="categoryArticles?category=${ category.categoryId}"><button>${category.name}</button></a>
+ 		<br>
 	 </c:forEach>
 </body>
 </html>

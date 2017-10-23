@@ -21,12 +21,12 @@
 				</c:forEach>
 				<hr>
 				<c:forEach items="${article.comments}" var="comment">
-					<c:out value="${comment.userId }">userId</c:out> <br>
+					userId <c:out value="${comment.userId }">userId</c:out> <br>
 					<c:out value="${comment.content }"></c:out> <br>
-					<c:out value="${comment.likes }">likes</c:out> 
-					<c:out value="${comment.dislikes }">dislikes</c:out> <br>
-					<c:out value="${comment.timeCreated }">timeCreated</c:out> <br>
-					<c:out value="${comment.aproved }">aproved</c:out> <br>
+					likes:<c:out value="${comment.likes }">likes</c:out> 
+					dislikes:<c:out value="${comment.dislikes }">dislikes</c:out> <br>
+					timeCreated:<c:out value="${comment.timeCreated }">timeCreated</c:out> <br>
+					aproved:<c:out value="${comment.aproved }">aproved</c:out> <br>
 				</c:forEach>
 	 
 

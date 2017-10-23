@@ -1,11 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 
-public class Comment {
+public class Comment implements Serializable{
 	
+	
+	private static final long serialVersionUID = -2083047749077809648L;
 	private long commentId;
 	private long userId;
 	private long articleId;

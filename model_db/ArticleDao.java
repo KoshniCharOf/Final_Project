@@ -152,4 +152,29 @@ public final class ArticleDao {
 			ps.executeUpdate();
 			
 		}
+		
+		public Set<Article> getTop5ByImpressions() throws SQLException{
+			Set<Article> articles = new HashSet<Article>();
+			Connection con  = DBManager.getInstance().getConnection();
+			String sql = "SELECT a.article_id, a.category_id, a.title, a.content, a.datetime, a.impressions, a.isLeading  FROM  articles as a  order by a.impressions desc limit 5";
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				
+				long articleId = rs.getLong(1);
+				long categoryId = rs.getLong(2);
+				String title = rs.getString(3);
+				String textContent = rs.getString(4);
+				LocalDateTime created = rs.getTimestamp(5).toLocalDateTime();
+				long impressions = rs.getInt(6);
+				boolean isLeading = rs.getInt(7)==1;
+				Set<Media> mediaFiles = MediaDao.getInstance().getMediaByArticle(articleId);
+				Set<Comment> comments = CommentDao.getInstance().getCommentsByArticle(articleId);
+				Article a = new Article(articleId, title, textContent, categoryId, created, impressions, isLeading, mediaFiles,comments);
+				articles.add(a);
+			}
+			
+			return articles;
+		}
 }

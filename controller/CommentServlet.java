@@ -16,6 +16,7 @@ public class CommentServlet extends HttpServlet {
 		//check if user is logged in
 		//insert new comment related to the article where the user is (URL??)
 		//refresh article comments and redirect to the article URL
+		
 	}
 
 }

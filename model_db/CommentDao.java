@@ -100,8 +100,9 @@ public final class CommentDao {
     	Connection con = DBManager.getInstance().getConnection();
     	
     	
-		PreparedStatement ps = con.prepareStatement("UPDATE comments c SET c.likes = likes+1 WHERE c.comment_id = ?", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement ps = con.prepareStatement("UPDATE comments c SET c.likes = likes+1 WHERE c.comment_id = ?");
 		ps.setLong(1, comment_id);
+		System.out.println("laik4e");
 		ps.executeUpdate();
     }
     //dislikes

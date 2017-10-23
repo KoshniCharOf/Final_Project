@@ -40,7 +40,7 @@ CREATE TABLE `article_media` (
 
 LOCK TABLES `article_media` WRITE;
 /*!40000 ALTER TABLE `article_media` DISABLE KEYS */;
-INSERT INTO `article_media` VALUES (3,1),(3,6),(6,9);
+INSERT INTO `article_media` VALUES (3,1),(3,6),(6,9),(7,10),(8,11),(9,12);
 /*!40000 ALTER TABLE `article_media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +65,7 @@ CREATE TABLE `articles` (
   KEY `idx_article_title` (`title`),
   KEY `fk_category_id_idx` (`category_id`),
   CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='longtext check\ncategories table\nnot sure about comments\n/where to add sub_category it has to be from category but not sure\nstatus_id breaking, top, shock:)\nobject_id Levski, CSKA...\n...add subscribers may be\nremoved tag, picture and video because  both refer to article_id';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='longtext check\ncategories table\nnot sure about comments\n/where to add sub_category it has to be from category but not sure\nstatus_id breaking, top, shock:)\nobject_id Levski, CSKA...\n...add subscribers may be\nremoved tag, picture and video because  both refer to article_id';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `articles` (
 
 LOCK TABLES `articles` WRITE;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
-INSERT INTO `articles` VALUES (3,1,'cska levski','dva na dva bace','2017-10-21 22:04:48',0,1),(5,3,'rugbistaa','ole mnogo boi ima tuka','2017-10-22 12:23:31',0,1),(6,1,'ludite','ludogoretz pe4eli','2017-10-22 12:26:25',0,1);
+INSERT INTO `articles` VALUES (3,1,'cska levski','dva na dva bace','2017-10-21 22:04:48',32,1),(5,3,'rugbistaa','ole mnogo boi ima tuka','2017-10-22 12:23:31',2,1),(6,1,'ludite','ludogoretz pe4eli','2017-10-22 12:26:25',2,1),(7,1,'levski ','bie kogato moje','2017-10-23 01:47:51',4,1),(8,6,'grigor s nova','bie federrer i mu vzema jenata','2017-10-23 01:48:57',11,0),(9,2,'mnogo shock','pulna drama','2017-10-23 01:49:29',29,0);
 /*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,14 +116,14 @@ CREATE TABLE `comments` (
   `content` varchar(200) NOT NULL,
   `likes` int(11) DEFAULT '0',
   `dislikes` int(11) DEFAULT '0',
-  `date_time` datetime NOT NULL,
+  `date_time` datetime DEFAULT NULL,
   `isApproved` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`comment_id`),
   KEY `user_id_idx` (`user_id`),
   KEY `article_id_idx` (`article_id`),
   CONSTRAINT `fk_article_id` FOREIGN KEY (`article_id`) REFERENCES `articles` (`article_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,6 +132,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (1,14,3,'dada',8,8,'2017-10-21 22:04:48',1);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +149,7 @@ CREATE TABLE `media` (
   `content_url` varchar(1024) NOT NULL,
   PRIMARY KEY (`media_id`),
   UNIQUE KEY `content_url_UNIQUE` (`content_url`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='content_url 2083 can not be unique';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='content_url 2083 can not be unique';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +158,7 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
-INSERT INTO `media` VALUES (1,'zaglaviq','D:\\uploads\\images\\.jpg'),(6,'cska levski','D:\\uploads\\images\\cska levski.jpg'),(7,'zaglaviqa','D:\\uploads\\images\\zaglaviqa.jpg'),(8,'rugbistaa','D:\\uploads\\images\\rugbistaa.jpg'),(9,'ludite','D:\\uploads\\images\\ludite.jpg');
+INSERT INTO `media` VALUES (1,'zaglaviq','D:\\uploads\\images\\.jpg'),(6,'cska levski','D:\\uploads\\images\\cska levski.jpg'),(7,'zaglaviqa','D:\\uploads\\images\\zaglaviqa.jpg'),(8,'rugbistaa','D:\\uploads\\images\\rugbistaa.jpg'),(9,'ludite','D:\\uploads\\images\\ludite.jpg'),(10,'levski ','D:\\uploads\\images\\levski .jpg'),(11,'grigor s nova','D:\\uploads\\images\\grigor s nova.jpg'),(12,'mnogo shock','D:\\uploads\\images\\mnogo shock.jpg');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,4 +235,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-22 16:20:29
+-- Dump completed on 2017-10-23  4:02:35
